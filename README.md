@@ -30,7 +30,7 @@ This project is a WIP so this list may be expanded, but to this day I have worke
 - 1º Enter the Backend folder
 - 2º Run "npm install" and start the project with "node index.js"
 - 3º Enter the Frontend folder
-- 4º Run "npm install" and start the project with "npm start"
+- 4º Run "npm install" and start the project with "npm start" \
  Details:\
 Backend starts on Port :3000 \
 Frontend depends on Ionic \
