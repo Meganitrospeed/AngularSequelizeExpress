@@ -27,11 +27,12 @@ This project is a WIP so this list may be expanded, but to this day I have worke
   
 ## Setup
 
-1º Enter the Backend folder
-2º Run "npm install" and start the project with "node index.js"
-3º Enter the Frontend folder
-4º Run "npm install" and start the project with "npm start"
-Details:
+- 1º Enter the Backend folder
+- 2º Run "npm install" and start the project with "node index.js"
+- 3º Enter the Frontend folder
+- 4º Run "npm install" and start the project with "npm start"
+ Details:
+
 Backend starts on Port :3000
 Frontend depends on Ionic
 API documentation is available after backend starts on http://localhost:3000/api-docs/
