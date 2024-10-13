@@ -14,7 +14,7 @@ This project is a WIP so this list may be expanded, but to this day I have worke
 
  - WebStorm
  - Ionic
- - React
+ - Angular
  - Express (might replace with Axios later on)
  - Sequelize
  - SQLite
