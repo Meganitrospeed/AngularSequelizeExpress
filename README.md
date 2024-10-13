@@ -34,7 +34,7 @@ This project is a WIP so this list may be expanded, but to this day I have worke
 Details:
 Backend starts on Port :3000
 Frontend depends on Ionic
-API documentation is available after backend starts on http://http://localhost:3000/api-docs/
+API documentation is available after backend starts on http://localhost:3000/api-docs/
  
 
 ## 📜 License
