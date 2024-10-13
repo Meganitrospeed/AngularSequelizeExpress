@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Item List</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-button (click)="addItem()">Add Item</ion-button>
+  <ion-list>
+    <ion-item *ngFor="let item of items">
+      <ion-label>
+        <ion-input [(ngModel)]="item.name"></ion-input>
+        <ion-input [(ngModel)]="item.description"></ion-input>
+      </ion-label>
+      <ion-button (click)="updateItem(item)">Update</ion-button>
+      <ion-button (click)="deleteItem(item.id)">Delete</ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>
