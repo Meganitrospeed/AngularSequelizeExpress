@@ -1,5 +1,5 @@
 ![enter image description here](https://img.shields.io/badge/Author-Meganitrospeed-red) [![CodeFactor](https://www.codefactor.io/repository/github/meganitrospeed/AngularSequelizeExpress/badge)](https://www.codefactor.io/repository/github/meganitrospeed/AngularSequelizeExpress) ![enter image description here](https://img.shields.io/maintenance/yes/2024)
-# IP History
+# AngularSequelizeExpress
 Small Frontend for a CRUD that works with a SQLite backend with the Sequelize ORM with a Swagger Standard compliant API
 
 ## 🚩 Table of Contents
