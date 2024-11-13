@@ -3,11 +3,26 @@ const cors = require('cors');
 const { Item } = require('./models');
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
+const passport = require("passport");
 
 
 const app = express();
-app.use(express.json());
+
+//Start of middlewares
+app.use(express.json()); //Handle JSON's correctly
 app.use(cors()); // Enable CORS
+app.use(passport.initialize()); //Enable Passport middleware
+
+//End of Middlewares
+
+//Passport config loaded
+require('./config/passport')(passport);
+
+//Protected routes and router
+const authRoutes = require('./routes/auth');
+const protectedRoutes = require('./routes/protected');
+app.use('/api/auth', authRoutes);
+app.use('/api/protected', protectedRoutes);
 
 // Swagger setup
 const options = {

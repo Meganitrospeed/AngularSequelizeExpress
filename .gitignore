@@ -75,3 +75,4 @@ Thumbs.db
 /backend/node_modules/
 /backend/node_modules/
 /frontend/.angular/
+/backend/.env
