@@ -9,9 +9,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ImageCaptureComponent } from './pages/image-capture/image-capture.component';
 
 @NgModule({
-  declarations: [AppComponent, ItemListComponent, LoginComponent],
+  declarations: [AppComponent, ItemListComponent, LoginComponent, ImageCaptureComponent],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),

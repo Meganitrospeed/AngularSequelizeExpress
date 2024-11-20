@@ -5,6 +5,7 @@ const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 const passport = require("passport");
 const { sequelize } = require('./config/database'); // Load database.js
+const imageRoutes = require('./routes/images');
 
 
 const app = express();
@@ -179,6 +180,8 @@ app.delete('/items/:id', async (req, res) => {
   item.destroy();
   res.json({ message: 'Item deleted' });
 });
+
+app.use('/api/images', imageRoutes)
 
 app.listen(3000, async () => {
   try {

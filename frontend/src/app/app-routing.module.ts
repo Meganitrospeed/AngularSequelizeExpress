@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { ItemListComponent } from './pages/item-list/item-list.component';
 import { LoginComponent } from './login/login.component';
+import { ImageCaptureComponent } from './pages/image-capture/image-capture.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'image-capture',
+    component: ImageCaptureComponent
   },
 ];
 
