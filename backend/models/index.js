@@ -1,3 +1,4 @@
+// backend/models/index.js
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
@@ -19,12 +20,8 @@ fs
         return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
     })
     .forEach(file => {
-        const model = require(path.join(__dirname, file));
-        if (typeof model === 'function') {
-            db[model.name] = model(sequelize, Sequelize.DataTypes);
-        } else if (typeof model === 'object' && model.default) {
-            db[model.default.name] = new model.default(sequelize, Sequelize.DataTypes);
-        }
+        const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
+        db[model.name] = model;
     });
 
 Object.keys(db).forEach(modelName => {
