@@ -1,9 +1,9 @@
-// backend/routes/imageRoutes.js
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const router = express.Router();
-const { Image } = require('../models'); // Assuming you have a models/index.js that exports your models
+const { Image } = require('../models');
+const authMiddleware = require('../middleware/auth');
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -22,8 +22,10 @@ router.post('/upload', upload.single('image'), async (req, res) => {
     }
     try {
         const image = await Image.create({ path: `/uploads/${req.file.filename}` });
+        console.log("Image saved on path " + image.path);
         res.status(200).send(image);
     } catch (error) {
+        console.log("Failed to save image " + error);
         res.status(500).send({ error: 'Failed to save image' });
     }
 });
@@ -36,5 +38,8 @@ router.get('/', async (req, res) => {
         res.status(500).send({ error: 'Failed to fetch images' });
     }
 });
+
+// Expose the uploads folder
+router.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 module.exports = router;

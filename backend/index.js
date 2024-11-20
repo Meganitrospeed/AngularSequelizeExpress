@@ -6,7 +6,7 @@ const swaggerUi = require('swagger-ui-express');
 const passport = require("passport");
 const { sequelize } = require('./config/database'); // Load database.js
 const imageRoutes = require('./routes/images');
-
+const path = require('path');
 
 const app = express();
 
@@ -182,7 +182,10 @@ app.delete('/items/:id', async (req, res) => {
 });
 
 app.use('/api/images', imageRoutes)
-
+app.get('/uploads/:filename', (req, res) => {
+  const filePath = path.join(__dirname, 'uploads', req.params.filename);
+  res.sendFile(filePath);
+});
 app.listen(3000, async () => {
   try {
     await sequelize.authenticate();
