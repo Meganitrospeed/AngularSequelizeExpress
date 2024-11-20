@@ -4,6 +4,7 @@ const { Item } = require('./models');
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 const passport = require("passport");
+const { sequelize } = require('./config/database'); // Load database.js
 
 
 const app = express();
@@ -16,7 +17,7 @@ app.use(passport.initialize()); //Enable Passport middleware
 //End of Middlewares
 
 //Passport config loaded
-require('./config/passport')(passport);
+require('./config/passport');
 
 //Protected routes and router
 const authRoutes = require('./routes/auth');
@@ -179,6 +180,12 @@ app.delete('/items/:id', async (req, res) => {
   res.json({ message: 'Item deleted' });
 });
 
-app.listen(3000, () => {
-  console.log('Server is running on port 3000');
+app.listen(3000, async () => {
+  try {
+    await sequelize.authenticate();
+    console.log('Connection to the database has been established successfully.');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
+  console.log(`Server is running on port 3000`);
 });

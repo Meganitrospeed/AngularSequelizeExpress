@@ -1,39 +1,25 @@
-// routes/auth.js
-const router = require('express').Router();
-const User = require('../models/User');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const express = require('express');
+const router = express.Router();
+const { User } = require('../models');
+const bcrypt = require('bcrypt');
 
-// Register
 router.post('/register', async (req, res) => {
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(req.body.password, salt);
-    //We dont protect the role submit, this is a possible improvement
-    const user = new User({
-        name: req.body.name,
-        email: req.body.email,
-        password: hashedPassword,
-        role: req.body.role
-    });
+    const { email, password, passwordConfirmation } = req.body;
+
+    if (password !== passwordConfirmation) {
+        console.log("Password " + password + " does not match " + passwordConfirmation);
+        return res.status(400).json({ error: 'Passwords do not match' });
+    }
 
     try {
-        const savedUser = await user.save();
-        res.send({ user: user._id });
-    } catch (err) {
-        res.status(400).send(err);
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        const newUser = await User.create({ email, password: hashedPassword });
+        res.status(201).json({ message: 'Registration successful', user: newUser });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
-});
-
-// Login
-router.post('/login', async (req, res) => {
-    const user = await User.findOne({ email: req.body.email });
-    if (!user) return res.status(400).send('Email or password is wrong');
-
-    const validPass = await bcrypt.compare(req.body.password, user.password);
-    if (!validPass) return res.status(400).send('Invalid password');
-
-    const token = jwt.sign({ _id: user._id, role: user.role }, process.env.TOKEN_SECRET);
-    res.header('Authorization', token).send(token);
 });
 
 module.exports = router;
