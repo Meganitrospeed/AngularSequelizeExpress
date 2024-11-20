@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -9,13 +11,24 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
+  loginForm: FormGroup;
   registerForm: FormGroup;
-  errorMessage: string | null = null;
   authMode: string = 'login';
   email: string = '';
   password: string = '';
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private alertController: AlertController) {
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
+    private alertController: AlertController,
+    private router: Router,
+    private authService: AuthService
+  ) {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
+    });
+
     this.registerForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -30,6 +43,31 @@ export class LoginComponent {
       buttons: ['OK']
     });
     await alert.present();
+  }
+
+  login() {
+
+    const { email, password } = this.loginForm.value;
+    if (this.loginForm.invalid) {
+      console.log('Submitting login form with error', { email, password });
+      this.showAlert('Error', 'Please enter valid email and password');
+      return;
+    }
+    console.log('Submitting login form', { email, password });
+
+    this.http.post('http://localhost:3000/api/auth/login', { email, password })
+      .subscribe({
+        next: (response: any) => {
+          console.log('Login response', response);
+          this.authService.setToken(response.token);
+          this.showAlert('Success', 'Login successful');
+          this.router.navigate(['/dashboard']);
+        },
+        error: (error) => {
+          console.error('Login error', error);
+          this.showAlert('Error', error.error.error || 'Login failed');
+        }
+      });
   }
 
   register() {
@@ -75,22 +113,23 @@ export class LoginComponent {
       return;
     }
 
+    console.log('Submitting registration form', { email, password, passwordConfirmation });
+
     this.http.post('http://localhost:3000/api/auth/register', { email, password, passwordConfirmation })
       .subscribe({
         next: (response) => {
-          console.log('Registration successful', response);
-          this.errorMessage = null;
+          console.log('Registration response', response);
           this.showAlert('Success', 'Registration successful');
         },
         error: (error) => {
-          console.error('Registration failed', error);
+          console.error('Registration error', error);
           this.showAlert('Error', error.error.error || 'Registration failed');
         }
       });
   }
 
   onLogin() {
-    this.showAlert('Info', 'Login functionality not implemented yet.');
+    this.login();
   }
 
   onRegister() {
